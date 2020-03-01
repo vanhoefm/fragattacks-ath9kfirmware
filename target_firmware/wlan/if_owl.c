@@ -837,10 +837,14 @@ static void ath_tgt_tx_seqno_normal(struct ath_tx_buf *bf)
 
 	INCR(ni->ni_txseqmgmt, IEEE80211_SEQ_MAX);
 
+	// Mathy: this field doesn't seem to influence seqno of injected frames
 	bf->bf_seqno = (tid->seq_next << IEEE80211_SEQ_SEQ_SHIFT);
 
+#if 0
+	// Mathy: this DOES influence seqno of injected frames
 	*(u_int16_t *)wh->i_seq = adf_os_cpu_to_le16(bf->bf_seqno);
 	wh->i_seq[0] |= fragno;
+#endif
 
 	if (!(wh->i_fc[1] & IEEE80211_FC1_MORE_FRAG))
 		INCR(tid->seq_next, IEEE80211_SEQ_MAX);
@@ -931,6 +935,8 @@ static a_int32_t ath_tgt_txbuf_setup(struct ath_softc_tgt *sc,
 		bf->bf_shpream = AH_FALSE;
 
 	bf->bf_flags = HAL_TXDESC_CLRDMASK;
+	// Mathy: to prevent seqno from being overwritten in injected
+	//        frames, this doesn't have to be set to PSPOLL.
 	bf->bf_atype = HAL_PKT_TYPE_NORMAL;
 
 	return 0;
