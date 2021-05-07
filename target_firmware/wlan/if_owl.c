@@ -1186,8 +1186,11 @@ ath_tgt_send_mgt(struct ath_softc_tgt *sc,adf_nbuf_t hdr_buf, adf_nbuf_t skb,
 		sc->sc_tx_stats.ast_tx_protect++;
 	}
 
+#if 0
+	// Mathy: this influences the seqno of management frames
 	*(a_uint16_t *)&wh->i_seq[0] =  adf_os_cpu_to_le16(ni->ni_txseqmgmt <<
 							   IEEE80211_SEQ_SEQ_SHIFT);
+#endif
 	INCR(ni->ni_txseqmgmt, IEEE80211_SEQ_MAX);
 
 	ctsduration = 0;

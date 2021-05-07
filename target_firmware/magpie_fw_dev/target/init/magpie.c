@@ -67,13 +67,13 @@ static WMI_DECLARE_DISPATCH_TABLE(Magpie_Sys_Commands_Tbl, Magpie_Sys_DispatchEn
 htc_handle_t htc_handle;
 
 extern void HTC_Loopback_Init(htc_handle_t handle);
-extern void _FRAGAT_wmi_cmd_rsp(void *pContext, WMI_COMMAND_ID cmd_id,
+extern void _FRAGAT2_wmi_cmd_rsp(void *pContext, WMI_COMMAND_ID cmd_id,
 			 A_UINT16 SeqNo, A_UINT8 *buffer, int Length);
 
 static void handle_echo_command(void *pContext, A_UINT16 SeqNo,
 				A_UINT8 *buffer, int Length)
 {
-	_FRAGAT_wmi_cmd_rsp(pContext, WMI_ECHO_CMDID, SeqNo, buffer, Length);
+	_FRAGAT2_wmi_cmd_rsp(pContext, WMI_ECHO_CMDID, SeqNo, buffer, Length);
 }
 
 static void dispatch_magpie_sys_cmds(void *pContext, A_UINT16 Command,
@@ -90,8 +90,8 @@ static void dispatch_magpie_sys_cmds(void *pContext, A_UINT16 Command,
 	}
 }
 
-/* This causes the image to start with "_FRAGAT" so we can detected modified firmware */
-void _FRAGAT_wmi_cmd_rsp(void *pContext, WMI_COMMAND_ID cmd_id, A_UINT16 SeqNo,
+/* This causes the image to start with "_FRAGAT2" so we can detected modified firmware */
+void _FRAGAT2_wmi_cmd_rsp(void *pContext, WMI_COMMAND_ID cmd_id, A_UINT16 SeqNo,
 		  A_UINT8 *buffer, int Length)
 {
 	adf_nbuf_t netbuf = ADF_NBUF_NULL;
